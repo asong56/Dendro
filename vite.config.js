@@ -15,8 +15,8 @@ export default defineConfig({
         VitePWA({
             registerType: 'autoUpdate',
             manifest: {
-                name: 'Ephemera Reading List',
-                short_name: 'Ephemera',
+                name: 'Life in Weeks',
+                short_name: 'Life in Weeks',
                 icons: [
                     {
                         src: 'assets/web-app-manifest-192x192.png',
@@ -40,7 +40,7 @@ export default defineConfig({
     build: {
         target: "esnext",
         assetsInlineLimit: 100000000,
-        minify: "terser", 
+        minify: "terser",
         terserOptions: {
             compress: {
                 drop_console: true,

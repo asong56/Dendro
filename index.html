@@ -6,192 +6,199 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
         <meta name="theme-color" content="#f2f2f7">
-        
+
         <title>Life in Weeks</title>
-        
+
         <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
         <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
         <link rel="manifest" href="/site.webmanifest">
 
-        <meta property="og:title" content="Cicada: Minimalist Whiteboard">
-        <meta property="og:description" content="A minimalist, high-performance digital whiteboard for the web. Supports infinite canvas and image export.">
+        <meta property="og:title" content="Life in Weeks">
+        <meta property="og:description" content="Enter your birth date to explore the shape of your time — in numbers, perspective, and scale.">
         <meta property="og:image" content="/assets/og-card.png">
         <meta name="twitter:card" content="summary_large_image">
-        
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
-        
+
+        <!-- Chart.js — required for the population chart -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
+
         <link rel="stylesheet" href="./src/styles.css">
     </head>
     <body>
-        <div id="s1">
-            <div class="wordmark">Life in weeks</div>
-            <div class="hero">
+
+        <!-- ── STEP 1: Landing ── -->
+        <main id="s1">
+            <p class="wordmark">Life in weeks</p>
+            <header class="hero">
                 <h1>Your life,<br>mapped in <em>weeks</em></h1>
                 <p>Enter your birth date to explore the shape of your time — in numbers, perspective, and scale.</p>
-            </div>
-            <div class="iblock">
-                <div class="label">Your birth date</div>
-                <div class="irow">
+            </header>
+            <form class="iblock" id="life-form">
+                <label class="label" for="birthdate">Your birth date</label>
+                <p class="irow">
                     <input type="date" id="birthdate" max="">
-                    <button class="btn" onclick="visualize()">Visualize</button>
-                </div>
-            </div>
-        </div>
-        
-        <div id="s2">
-            <div class="page-header">
+                    <button type="submit" class="btn">Visualize</button>
+                </p>
+            </form>
+        </main>
+
+        <!-- ── STEP 2: Results ── -->
+        <section id="s2">
+            <header class="page-header">
                 <h2 id="ph-head">You have lived<br><em id="ph-weeks">—</em></h2>
-                <button class="btn-back" onclick="goBack()">← Start over</button>
-            </div>
-        
-            <div class="content">
-            
-                <div class="section">
-                    <div class="sec-title">Your life so far</div>
-            
-                    <div class="hero-stat">
-                        <span class="big" id="stat-weeks">—</span>
+                <button class="btn-back" id="btn-back">← Start over</button>
+            </header>
+
+            <article class="content">
+
+                <section class="section">
+                    <h3 class="sec-title">Your life so far</h3>
+
+                    <p class="hero-stat">
+                        <output class="big" id="stat-weeks">—</output>
                         <span class="unit">weeks</span>
-                    </div>
-                    <div class="hero-sub" id="stat-sub">— days · — years</div>
-            
-                    <div class="life-bar-wrap">
-                        <div class="label" style="margin-bottom:12px">Life progress — 90 year baseline</div>
-                        <div class="life-bar-track">
-                            <div class="life-bar-fill" id="life-fill" style="width:0%"></div>
-                            <div class="life-bar-now" id="life-now" style="left:0%"></div>
-                        </div>
-                        <div class="life-bar-labels">
+                    </p>
+                    <p class="hero-sub" id="stat-sub">— days · — years</p>
+
+                    <figure class="life-bar-wrap">
+                        <p class="label life-bar-head">Life progress — 90 year baseline</p>
+                        <span class="life-bar-track">
+                            <span class="life-bar-fill" id="life-fill"></span>
+                            <span class="life-bar-now" id="life-now"></span>
+                        </span>
+                        <figcaption class="life-bar-labels">
                             <span>Birth</span>
-                            <span id="bar-pct">—%</span>
+                            <output id="bar-pct">—%</output>
                             <span>90 years</span>
-                        </div>
-                    </div>
-            
-                    <div class="two-col">
-                        <div class="cell">
-                            <div class="cell-val" id="c-days">—</div>
-                            <div class="cell-label">Days on Earth</div>
-                        </div>
-                        <div class="cell">
-                            <div class="cell-val" id="c-seasons">—</div>
-                            <div class="cell-label">Seasons experienced</div>
-                        </div>
-                        <div class="cell">
-                            <div class="cell-val" id="c-moons">—</div>
-                            <div class="cell-label">Full moons witnessed</div>
-                        </div>
-                        <div class="cell">
-                            <div class="cell-val" id="c-remain">—</div>
-                            <div class="cell-label">Weeks remaining (est.)</div>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="section">
-                    <div class="sec-title">Body & biology</div>
-                    <div style="margin-bottom:28px">
-                        <div class="cmp-row">
-                            <div class="cmp-head"><span class="cmp-name">Heartbeats</span><span class="cmp-val" id="b-heart">—</span></div>
-                            <div class="cmp-track"><div class="cmp-fill" id="bf-heart" style="width:100%;background:var(--past)"></div></div>
-                        </div>
-                        <div class="cmp-row">
-                            <div class="cmp-head"><span class="cmp-name">Breaths taken</span><span class="cmp-val" id="b-breath">—</span></div>
-                            <div class="cmp-track"><div class="cmp-fill" id="bf-breath" style="width:0%;background:var(--past)"></div></div>
-                        </div>
-                        <div class="cmp-row">
-                            <div class="cmp-head"><span class="cmp-name">Hours of sleep</span><span class="cmp-val" id="b-sleep">—</span></div>
-                            <div class="cmp-track"><div class="cmp-fill" id="bf-sleep" style="width:0%;background:var(--past)"></div></div>
-                        </div>
-                        <div class="cmp-row">
-                            <div class="cmp-head"><span class="cmp-name">Steps walked</span><span class="cmp-val" id="b-steps">—</span></div>
-                            <div class="cmp-track"><div class="cmp-fill" id="bf-steps" style="width:0%;background:var(--past)"></div></div>
-                        </div>
-                        <div class="cmp-row">
-                            <div class="cmp-head"><span class="cmp-name">Cell replacements (full cycles)</span><span class="cmp-val" id="b-cells">—</span></div>
-                            <div class="cmp-track"><div class="cmp-fill" id="bf-cells" style="width:0%;background:var(--accent)"></div></div>
-                        </div>
-                    </div>
-                    <div class="cell" style="border:1px solid var(--border)">
-                        <div class="cell-val" id="b-food">—</div>
-                        <div class="cell-label">Meals eaten (est. at 3 per day)</div>
-                    </div>
-                </div>
-            
-                <div class="section">
-                    <div class="sec-title">Life milestones</div>
-                    <div class="timeline" id="tl-wrap"></div>
-                </div>
-            
-                <div class="section">
-                    <div class="sec-title">Lifespan in perspective</div>
-                    <div style="margin-bottom:8px">
-                        <div class="cmp-row">
-                            <div class="cmp-head"><span class="cmp-name">You</span><span class="cmp-val" id="lc-you">—</span></div>
-                            <div class="cmp-track"><div class="cmp-fill" id="lcf-you" style="width:0%;background:var(--accent)"></div></div>
-                        </div>
-                        <div class="cmp-row">
-                            <div class="cmp-head"><span class="cmp-name">Average human (global, 2024)</span><span class="cmp-val">72.6 yrs</span></div>
-                            <div class="cmp-track"><div class="cmp-fill" id="lcf-avg" style="width:0%;background:var(--past)"></div></div>
-                        </div>
-                        <div class="cmp-row">
-                            <div class="cmp-head"><span class="cmp-name">Greenland shark</span><span class="cmp-val">400 yrs</span></div>
-                            <div class="cmp-track"><div class="cmp-fill" style="width:100%;background:var(--border)"></div></div>
-                        </div>
-                        <div class="cmp-row">
-                            <div class="cmp-head"><span class="cmp-name">Giant sequoia</span><span class="cmp-val">3,200 yrs</span></div>
-                            <div class="cmp-track"><div class="cmp-fill" style="width:100%;background:var(--border)"></div></div>
-                        </div>
-                        <div class="cmp-row">
-                            <div class="cmp-head"><span class="cmp-name">Ocean quahog clam</span><span class="cmp-val">507 yrs</span></div>
-                            <div class="cmp-track"><div class="cmp-fill" style="width:100%;background:var(--border)"></div></div>
-                        </div>
-                        <div class="cmp-row">
-                            <div class="cmp-head"><span class="cmp-name">Mayfly</span><span class="cmp-val">1 day</span></div>
-                            <div class="cmp-track"><div class="cmp-fill" style="width:100%;background:#d8d4cc55"></div></div>
-                        </div>
-                    </div>
-                    <div style="font-size:13px;color:var(--muted);margin-top:8px">Bars scaled relative to the longest lifespan shown (giant sequoia, 3,200 yrs).</div>
-                </div>
-            
-                <div class="section">
-                    <div class="sec-title">The world while you lived</div>
-                    <div style="margin-bottom:24px">
-                        <div class="label" style="margin-bottom:12px">World population growth</div>
-                        <div id="pop-chart-wrap"><canvas id="pop-chart"></canvas></div>
-                        <div style="display:flex;justify-content:space-between;margin-top:6px">
-                            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)" id="pop-birth-label">—</span>
-                            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)">Today: 8.2b</span>
-                        </div>
-                    </div>
-                    <div class="three-col" style="margin-top:24px">
-                        <div class="cell">
-                            <div class="cell-val" id="w-born">—</div>
-                            <div class="cell-label">People born since you were</div>
-                        </div>
-                        <div class="cell">
-                            <div class="cell-val" id="w-died">—</div>
-                            <div class="cell-label">People who have died</div>
-                        </div>
-                        <div class="cell">
-                            <div class="cell-val" id="w-met">—</div>
-                            <div class="cell-label">People you've likely met</div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="section">
-                    <div class="sec-title">Cosmic & natural scale</div>
-                    <div class="cosmic-grid" id="cosmic-grid"></div>
-                </div>
-            
-                <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.08em;padding-top:28px;border-top:1px solid var(--border)">
+                        </figcaption>
+                    </figure>
+
+                    <ul class="two-col">
+                        <li class="cell">
+                            <output class="cell-val" id="c-days">—</output>
+                            <p class="cell-label">Days on Earth</p>
+                        </li>
+                        <li class="cell">
+                            <output class="cell-val" id="c-seasons">—</output>
+                            <p class="cell-label">Seasons experienced</p>
+                        </li>
+                        <li class="cell">
+                            <output class="cell-val" id="c-moons">—</output>
+                            <p class="cell-label">Full moons witnessed</p>
+                        </li>
+                        <li class="cell">
+                            <output class="cell-val" id="c-remain">—</output>
+                            <p class="cell-label">Weeks remaining (est.)</p>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h3 class="sec-title">Body &amp; biology</h3>
+                    <section class="bio-bars">
+                        <article class="cmp-row">
+                            <p class="cmp-head"><span class="cmp-name">Heartbeats</span><output class="cmp-val" id="b-heart">—</output></p>
+                            <span class="cmp-track"><span class="cmp-fill" id="bf-heart" style="width:100%;background:var(--past)"></span></span>
+                        </article>
+                        <article class="cmp-row">
+                            <p class="cmp-head"><span class="cmp-name">Breaths taken</span><output class="cmp-val" id="b-breath">—</output></p>
+                            <span class="cmp-track"><span class="cmp-fill" id="bf-breath" style="width:0%;background:var(--past)"></span></span>
+                        </article>
+                        <article class="cmp-row">
+                            <p class="cmp-head"><span class="cmp-name">Hours of sleep</span><output class="cmp-val" id="b-sleep">—</output></p>
+                            <span class="cmp-track"><span class="cmp-fill" id="bf-sleep" style="width:0%;background:var(--past)"></span></span>
+                        </article>
+                        <article class="cmp-row">
+                            <p class="cmp-head"><span class="cmp-name">Steps walked</span><output class="cmp-val" id="b-steps">—</output></p>
+                            <span class="cmp-track"><span class="cmp-fill" id="bf-steps" style="width:0%;background:var(--past)"></span></span>
+                        </article>
+                        <article class="cmp-row">
+                            <p class="cmp-head"><span class="cmp-name">Cell replacements (full cycles)</span><output class="cmp-val" id="b-cells">—</output></p>
+                            <span class="cmp-track"><span class="cmp-fill" id="bf-cells" style="width:0%;background:var(--accent)"></span></span>
+                        </article>
+                    </section>
+                    <article class="cell meals-cell">
+                        <output class="cell-val" id="b-food">—</output>
+                        <p class="cell-label">Meals eaten (est. at 3 per day)</p>
+                    </article>
+                </section>
+
+                <section class="section">
+                    <h3 class="sec-title">Life milestones</h3>
+                    <ol class="timeline" id="tl-wrap"></ol>
+                </section>
+
+                <section class="section">
+                    <h3 class="sec-title">Lifespan in perspective</h3>
+                    <section class="lifespan-bars">
+                        <article class="cmp-row">
+                            <p class="cmp-head"><span class="cmp-name">You</span><output class="cmp-val" id="lc-you">—</output></p>
+                            <span class="cmp-track"><span class="cmp-fill" id="lcf-you" style="width:0%;background:var(--accent)"></span></span>
+                        </article>
+                        <article class="cmp-row">
+                            <p class="cmp-head"><span class="cmp-name">Average human (global, 2024)</span><span class="cmp-val">72.6 yrs</span></p>
+                            <span class="cmp-track"><span class="cmp-fill" id="lcf-avg" style="width:0%;background:var(--past)"></span></span>
+                        </article>
+                        <article class="cmp-row">
+                            <p class="cmp-head"><span class="cmp-name">Greenland shark</span><span class="cmp-val">400 yrs</span></p>
+                            <span class="cmp-track"><span class="cmp-fill" style="width:100%;background:var(--border)"></span></span>
+                        </article>
+                        <article class="cmp-row">
+                            <p class="cmp-head"><span class="cmp-name">Giant sequoia</span><span class="cmp-val">3,200 yrs</span></p>
+                            <span class="cmp-track"><span class="cmp-fill" style="width:100%;background:var(--border)"></span></span>
+                        </article>
+                        <article class="cmp-row">
+                            <p class="cmp-head"><span class="cmp-name">Ocean quahog clam</span><span class="cmp-val">507 yrs</span></p>
+                            <span class="cmp-track"><span class="cmp-fill" style="width:100%;background:var(--border)"></span></span>
+                        </article>
+                        <article class="cmp-row">
+                            <p class="cmp-head"><span class="cmp-name">Mayfly</span><span class="cmp-val">1 day</span></p>
+                            <span class="cmp-track"><span class="cmp-fill" style="width:100%;background:#d8d4cc55"></span></span>
+                        </article>
+                    </section>
+                    <p class="lifespan-note">Bars scaled relative to the longest lifespan shown (giant sequoia, 3,200 yrs).</p>
+                </section>
+
+                <section class="section">
+                    <h3 class="sec-title">The world while you lived</h3>
+                    <figure class="pop-figure">
+                        <p class="label pop-chart-label">World population growth</p>
+                        <span id="pop-chart-wrap"><canvas id="pop-chart"></canvas></span>
+                        <figcaption class="pop-labels">
+                            <output id="pop-birth-label">—</output>
+                            <span>Today: 8.2b</span>
+                        </figcaption>
+                    </figure>
+                    <ul class="three-col">
+                        <li class="cell">
+                            <output class="cell-val" id="w-born">—</output>
+                            <p class="cell-label">People born since you were</p>
+                        </li>
+                        <li class="cell">
+                            <output class="cell-val" id="w-died">—</output>
+                            <p class="cell-label">People who have died</p>
+                        </li>
+                        <li class="cell">
+                            <output class="cell-val" id="w-met">—</output>
+                            <p class="cell-label">People you've likely met</p>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h3 class="sec-title">Cosmic &amp; natural scale</h3>
+                    <ul class="cosmic-grid" id="cosmic-grid"></ul>
+                </section>
+
+                <footer class="data-note">
                     Life expectancy baseline: 90 years &nbsp;·&nbsp; All figures are estimates based on scientific consensus and current global data.
-                </div>
-            </div>
-        </div>
+                </footer>
+
+            </article>
+        </section>
+
         <script type="module" src="./src/main.js"></script>
     </body>
 </html>
