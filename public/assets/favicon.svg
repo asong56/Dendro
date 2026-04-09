@@ -3,17 +3,17 @@
         .stroke { stroke: #363028; }
         
         @media (prefers-color-scheme: dark) {
-          .stroke { stroke: #A898AE; }
+            .stroke { stroke: #A898AE; }
         }
     </style>
     
     <g class="stroke" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="50" cy="50" r="1.5" fill="currentColor" class="stroke" />
         
-        <circle cx="50" cy="50" r="15" stroke-dasharray="15 80" stroke-dashoffset="20" />
+        <circle cx="50" cy="50" r="15" stroke-dasharray="35 60" stroke-dashoffset="10" />
         
-        <circle cx="50" cy="50" r="30" stroke-dasharray="25 60 15 88" stroke-dashoffset="160" />
+        <circle cx="50" cy="50" r="30" stroke-dasharray="50 45 40 54" stroke-dashoffset="140" />
         
-        <circle cx="50" cy="50" r="45" stroke-dasharray="30 70 20 80 15 67" stroke-dashoffset="40" />
+        <circle cx="50" cy="50" r="45" stroke-dasharray="70 80 60 73" stroke-dashoffset="20" />
     </g>
 </svg>
