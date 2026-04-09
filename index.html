@@ -2,10 +2,27 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Life in weeks</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="theme-color" content="#f2f2f7">
+        
+        <title>Life in Weeks</title>
+        
+        <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+        <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+        <link rel="manifest" href="/site.webmanifest">
+
+        <meta property="og:title" content="Cicada: Minimalist Whiteboard">
+        <meta property="og:description" content="A minimalist, high-performance digital whiteboard for the web. Supports infinite canvas and image export.">
+        <meta property="og:image" content="/assets/og-card.png">
+        <meta name="twitter:card" content="summary_large_image">
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
         <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="./styles.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+        
+        <link rel="stylesheet" href="./src/styles.css">
     </head>
     <body>
         <div id="s1">
@@ -175,6 +192,6 @@
                 </div>
             </div>
         </div>
-        <script type="module" src="./scripts.js"></script>
+        <script type="module" src="./src/main.js"></script>
     </body>
 </html>
