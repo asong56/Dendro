@@ -11,29 +11,18 @@ body{
   line-height:1.6;-webkit-font-smoothing:antialiased;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 8px;
-  background-color: transparent;
-}
+/* ── Semantic element resets ── */
+figure{margin:0}
+form{margin:0}
+output{display:block}
+ul,ol{list-style:none;padding:0}
 
-::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: transparent; 
-  border-radius: 10px;
-}
-
-*:hover::-webkit-scrollbar-thumb {
-  background-color: rgba(150, 150, 150, 0.5);
-}
-
-::-webkit-scrollbar-thumb:hover,
-::-webkit-scrollbar-thumb:active {
-  background-color: rgba(100, 100, 100, 0.8);
-}
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:6px;height:8px;background-color:transparent}
+::-webkit-scrollbar-track{background-color:transparent}
+::-webkit-scrollbar-thumb{background-color:transparent;border-radius:10px}
+*:hover::-webkit-scrollbar-thumb{background-color:rgba(150,150,150,.5)}
+::-webkit-scrollbar-thumb:hover,::-webkit-scrollbar-thumb:active{background-color:rgba(100,100,100,.8)}
 
 .mono{font-family:'DM Mono',monospace;font-weight:300}
 .label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
@@ -96,38 +85,38 @@ input[type=date]:focus{border-color:var(--accent)}
 
 /* ── LIFE BAR ── */
 .life-bar-wrap{margin-bottom:48px}
+.life-bar-head{margin-bottom:12px}
 .life-bar-track{
-  width:100%;height:12px;background:var(--future);border-radius:1px;
+  display:block;width:100%;height:12px;background:var(--future);border-radius:1px;
   overflow:hidden;position:relative
 }
-.life-bar-fill{height:100%;background:var(--past);border-radius:1px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.life-bar-fill{display:block;height:100%;background:var(--past);border-radius:1px;transition:width 1s cubic-bezier(.4,0,.2,1)}
 .life-bar-now{
-  position:absolute;top:0;height:100%;width:3px;
+  display:block;position:absolute;top:0;height:100%;width:3px;
   background:var(--accent);transform:translateX(-50%)
 }
 .life-bar-labels{display:flex;justify-content:space-between;margin-top:8px}
-.life-bar-labels span{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+.life-bar-labels span,
+.life-bar-labels output{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);display:inline}
 
-/* ── TWO-COL GRID ── */
+/* ── TWO / THREE COL GRIDS ── */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
 .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
 .cell{background:var(--card);padding:24px 22px}
 .cell-val{font-family:'DM Mono',monospace;font-size:22px;font-weight:300;letter-spacing:-.02em;line-height:1;color:var(--text)}
 .cell-label{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.4}
+.meals-cell{border:1px solid var(--border)}
 
-/* ── COMPARE BAR ── */
+/* ── COMPARE BARS ── */
+.bio-bars{margin-bottom:28px}
+.lifespan-bars{margin-bottom:8px}
 .cmp-row{display:flex;flex-direction:column;gap:4px;margin-bottom:18px}
 .cmp-head{display:flex;justify-content:space-between;align-items:baseline}
 .cmp-name{font-size:14px;color:var(--text)}
-.cmp-val{font-family:'DM Mono',monospace;font-size:13px;color:var(--muted)}
-.cmp-track{height:6px;background:var(--future);border-radius:1px;overflow:hidden}
-.cmp-fill{height:100%;border-radius:1px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
-
-/* ── RADIAL ARC ── */
-.radials{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:24px;margin-bottom:8px}
-.radial-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
-.radial-label{font-size:13px;color:var(--muted);text-align:center;line-height:1.4}
-.radial-val{font-family:'DM Mono',monospace;font-size:13px;font-weight:300;color:var(--text);text-align:center}
+.cmp-val{font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);display:inline}
+.cmp-track{display:block;height:6px;background:var(--future);border-radius:1px;overflow:hidden}
+.cmp-fill{display:block;height:100%;border-radius:1px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.lifespan-note{font-size:13px;color:var(--muted);margin-top:8px}
 
 /* ── TIMELINE ── */
 .timeline{position:relative;padding-left:28px}
@@ -141,10 +130,20 @@ input[type=date]:focus{border-color:var(--accent)}
 }
 .tl-dot.lived{background:var(--past);border-color:var(--past)}
 .tl-dot.now-dot{background:var(--accent);border-color:var(--accent)}
-.tl-body{}
+.tl-body{font-size:0}  /* collapse inline whitespace between spans */
+.tl-age,.tl-text,.tl-sub{display:block;font-size:initial}
 .tl-age{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em;margin-bottom:2px}
 .tl-text{font-size:15px;color:var(--text);line-height:1.4}
+.tl-future{color:var(--muted)}
 .tl-sub{font-size:13px;color:var(--muted);margin-top:2px}
+
+/* ── POPULATION CHART ── */
+.pop-figure{margin-bottom:24px}
+.pop-chart-label{margin-bottom:12px}
+#pop-chart-wrap{display:block;height:200px;position:relative}
+.pop-labels{display:flex;justify-content:space-between;margin-top:6px}
+.pop-labels output,
+.pop-labels span{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);display:inline}
 
 /* ── COSMIC ── */
 .cosmic-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
@@ -153,12 +152,13 @@ input[type=date]:focus{border-color:var(--accent)}
 .cosmic-unit{font-size:13px;color:var(--muted);margin-bottom:16px}
 .cosmic-ctx{font-size:14px;color:var(--text);line-height:1.5}
 .cosmic-scale{margin-top:14px}
-.cosmic-track{height:4px;background:var(--future);border-radius:1px;overflow:hidden;margin-top:6px}
-.cosmic-fill{height:100%;border-radius:1px}
+.cosmic-track{display:block;height:4px;background:var(--future);border-radius:1px;overflow:hidden;margin-top:6px}
+.cosmic-fill{display:block;height:100%;border-radius:1px}
 
-/* ── POPULATION CHART ── */
-#pop-chart-wrap{height:200px;position:relative}
+/* ── DATA NOTE FOOTER ── */
+.data-note{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.08em;padding-top:28px;border-top:1px solid var(--border)}
 
+/* ── RESPONSIVE ── */
 @media(max-width:600px){
   .content{padding:0 20px 80px}
   .page-header{padding:60px 20px 32px}
@@ -167,6 +167,7 @@ input[type=date]:focus{border-color:var(--accent)}
   .cosmic-grid{grid-template-columns:1fr}
 }
 
+/* ── SECTION ANIMATIONS ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .section{animation:fadeUp .5s ease both}
 .section:nth-child(2){animation-delay:.05s}
